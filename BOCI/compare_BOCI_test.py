@@ -867,7 +867,7 @@ if __name__ == '__main__':
     # compare_data.main_compare_model_info()
 
     # 2.比较模型关键指标，数据一致
-    # compare_data.main_compare_model_keyindex()
+    compare_data.main_compare_model_keyindex()
 
     # 3.比较模型投资分布，数据一致
     # compare_data.main_compare_model_distribution()
