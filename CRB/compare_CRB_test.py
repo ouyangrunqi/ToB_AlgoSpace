@@ -526,7 +526,13 @@ class Comparedata:
                         ddd.append(v)
                 ddd.sort()
                 ddd_out.append(ddd)
-        return ddd_out
+        #利用集合去重
+        ddd_out_set = set(tuple(s) for s in ddd_out)
+        print(ddd_out_set)
+        #再把集合转成列表
+        fund_list = [list(t) for t in ddd_out_set]
+        print(fund_list)
+        return fund_list
 
 
 
