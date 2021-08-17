@@ -1,4 +1,4 @@
-4688==ratio_40
-4690==ratio_50
-4691==ratio_70
-4692==ratio_0
+2170==ratio_40
+2171==ratio_50
+2172==ratio_70
+2175==ratio_0

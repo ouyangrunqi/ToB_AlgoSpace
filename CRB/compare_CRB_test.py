@@ -24,16 +24,16 @@ class Comparedata:
         # projections,每5个一行
         self.splice_length = 5
 
-        self.iuid_mapping_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_info_mapping?algo_type_id={self.algo_type_id}'
+        self.iuid_mapping_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_info_mapping?algo_type_id={self.algo_type_id}'
         # 通过algo_type查typeid
-        self.algo_type_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_type_version/list?algo_type_id={self.algo_type_id}&requires_active=true'
+        self.algo_type_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_type_version/list?algo_type_id={self.algo_type_id}&requires_active=true'
         self.headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36'
         }
 
-        self.use_iuid_mapping = ['iuid', 'productCode', 'name','nameSimplified','nameTraditional', 'description','descriptionSimplified', 'descriptionTraditional','fundType']
+        self.use_iuid_mapping = ['iuid', 'productCode','nameSimplified','descriptionSimplified','fundType']
         dd = self.get_date()
-        self.instrument_info_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_info_mapping/instrument_info?algo_type_id={self.algo_type_id}&date={dd}'
+        self.instrument_info_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_info_mapping/instrument_info?algo_type_id={self.algo_type_id}&date={dd}'
         self.not_use_instrument_info = ['exRatio','exDate']
 
     #获取本地当前系统时间（2021-08-16）
@@ -53,7 +53,7 @@ class Comparedata:
 
     def write_control_ids(self):
         type_id = self.req_typeid()
-        model_info_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/list?algo_type_version_id={type_id}'
+        model_info_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/list?algo_type_version_id={type_id}'
         res = requests.get(model_info_url, headers=self.headers)
         res_json = json.loads(res.text)
         for data_dics in res_json['data']:
@@ -170,7 +170,7 @@ class Comparedata:
         '''
         modelinfo_out_list = []
         type_id = self.req_typeid()
-        model_info_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/list?algo_type_version_id={type_id}'
+        model_info_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/list?algo_type_version_id={type_id}'
         res = requests.get(model_info_url, headers=self.headers)
         res_json = json.loads(res.text)
         i = 0
@@ -254,7 +254,7 @@ class Comparedata:
             cm = cm.split('==')
             control_id = cm[0]
             model_id = cm[1]
-            model_distrubution_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/distributions'
+            model_distrubution_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/distributions'
             res = requests.get(model_distrubution_url, headers=self.headers)
             res_json = json.loads(res.text)
 
@@ -346,7 +346,7 @@ class Comparedata:
             cm = cm.split('==')
             control_id = cm[0]
             model_id = cm[1]
-            model_weight_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/weights?extends_result=false'
+            model_weight_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/weights?extends_result=false'
             res = requests.get(model_weight_url, headers=self.headers)
             res_json = json.loads(res.text)
             for data_dics in res_json['data']:
@@ -380,12 +380,13 @@ class Comparedata:
     def req_model_projections(self):
         cmis = self.get_control_model_id()
         ddd_out = []
+        qc = []
         for cm in cmis:
             print(f'now in weight request {cm} ----->')
             cm = cm.split('==')
             control_id = cm[0]
             model_id = cm[1]
-            model_projections_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/projections'
+            model_projections_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/projections'
             res = requests.get(model_projections_url, headers=self.headers)
             res_json = json.loads(res.text)
             # print(res_json['data'])
@@ -412,14 +413,13 @@ class Comparedata:
                         nee_list.append(ne_list)
                         j += 1
                 # print(nee_list)
+                #方法一
                 for nn in nee_list:
                     ddd = []
-                    #     print(nn)
-                    #     print(len(nn))
-                    # time.sleep(3000)
                     ii = 0
                     for data_dics in nn:
                         for k, v in data_dics.items():
+                            # 每5个一组，ii==0~4，时间都是一样，ii==5,相当于第二个id的ii==0(实际不能到5，限制返回5个)
                             if ii == 1:
                                 if k == 'projectionDate':
                                     v = v.split('T')[0]
@@ -444,22 +444,38 @@ class Comparedata:
                     ddd.sort()
                     ddd_out.append(ddd)
         return ddd_out
+                  #去重方法2
+        #         for nn in nee_list:
+        #             ddd = []
+        #             qc = []
+        #             for data_dics in nn:
+        #                 for k, v in data_dics.items():
+        #                     if k == 'projectionDate':
+        #                         v = v.split('T')[0]
+        #                         qc.append(v)
+        #                         for kk in qc:
+        #                             if not kk in ddd:
+        #                                 ddd.append(kk)
+        #                     if k == 'projectionValue':
+        #                         aa = str(v).split('.')
+        #                         bb = aa[1]
+        #                         cc = ''
+        #                         if len(bb) == 1:
+        #                             cc = f'{str(v)}00000'
+        #                         if len(bb) == 2:
+        #                             cc = f'{str(v)}0000'
+        #                         if len(bb) == 3:
+        #                             cc = f'{str(v)}000'
+        #                         if len(bb) == 4:
+        #                             cc = f'{str(v)}00'
+        #                         if len(bb) == 5:
+        #                             cc = f'{str(v)}0'
+        #                         ddd.append(cc)
+        #             ddd.append(model_id)
+        #             ddd.sort()
+        #             ddd_out.append(ddd)
+        # return ddd_out
 
-    # def req_model_backtesting(self):
-    #     cmis = self.get_control_model_id()
-    #     i = 0
-    #     for cm in cmis:
-    #         print(f'now in backtesting request {cm} ----->')
-    #         cm = cm.split('==')
-    #         control_id = cm[0]
-    #         model_backtesting_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/backtestings'
-    #         res = requests.get(model_backtesting_url, headers=self.headers)
-    #         res_json = json.loads(res.text)
-    #         # print(res_json['data'])
-    #         oldlist = res_json['data']
-    #         # print(len(oldlist))
-    #         i += len(oldlist)
-    #     return i
 
     def req_model_backtesting(self):
         model_backtesting_lists = []
@@ -469,7 +485,7 @@ class Comparedata:
             cm = cm.split('==')
             control_id = cm[0]
             bbb = cm[1]
-            model_backtesting_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/backtestings'
+            model_backtesting_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/backtestings'
             res = requests.get(model_backtesting_url, headers=self.headers)
             res_json = json.loads(res.text)
             for data in res_json['data']:
@@ -514,7 +530,7 @@ class Comparedata:
             cm = cm.split('==')
             control_id = cm[0]
             model_id = cm[1]
-            model_weight_url = f'https://algo-dev.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/weights?extends_result=false'
+            model_weight_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/{control_id}/weights?extends_result=false'
             res = requests.get(model_weight_url, headers=self.headers)
             res_json = json.loads(res.text)
             for data_dics in res_json['data']:
@@ -561,11 +577,7 @@ class Comparedata:
                     if v == 'ALTERNATIVE':
                         v = '5'
                     data_list.append(v)
-                if k == 'extraData':
-                    v = eval(v)
-                    for kk,vv in v.items():
-                        data_list.append(vv)
-                data_list.sort()
+                    data_list.sort()
             req_data_list.append(data_list)
         return req_data_list
 
@@ -643,7 +655,7 @@ class Comparedata:
                 #一直是0，即数据不同
                 if i != 1:
                     self.write_compare_data('模型关键指标-', kk, times)
-                    print(kk)
+                    print(f'数据不一致:', kk)
             if j == len(model_keyindex_list):
                 print('\n模型关键指标>>>校验通过，数据一致!')
         else:
@@ -959,24 +971,24 @@ if __name__ == '__main__':
     # 0.比较算法模型，数据一致
     # compare_data.main_compare_model_info()
 
-    # 1.比较模型关键指标，数据不一致
+    # 1.比较模型关键指标，数据一致
     # compare_data.main_compare_model_keyindex()
 
-    # 2.比较模型投资分布，表格中多了3条dist_value为0的数据
+    # 2.比较模型投资分布，数据一致
     # compare_data.main_compare_model_distribution()
 
-    # 3.比较算法模型权重
+    # 3.比较算法模型权重，数据一致
     # compare_data.main_compare_model_weight()
 
     # 4.比较算法预测，数据一致
-    # compare_data.main_compare_model_projections()
+    compare_data.main_compare_model_projections()
 
-    # 5.比较算法回溯测试
+    # 5.比较算法回溯测试，数据一致
     # compare_data.main_compare_model_backtesting()
 
-    # 6.比较后备基金名单
-    compare_data.main_compare_standby_fund()
+    # 6.比较后备基金名单，数据一致
+    # compare_data.main_compare_standby_fund()
 
-    # 7.比较基金
+    # 7.比较基金，数据一致
     # compare_data.main_compare_iuid_mapping()
 
