@@ -419,7 +419,7 @@ class Comparedata:
                     ii = 0
                     for data_dics in nn:
                         for k, v in data_dics.items():
-                            # 每5个一组，ii==0~4，时间都是一样，ii==5,相当于第二个id的ii==0(实际不能到5，限制返回5个)
+                            # 初始化0，循环一次ii+1,即每5个一组，5个数据中有1个取了时间，其他4个循环，ii==2、3...即不会再取时间
                             if ii == 1:
                                 if k == 'projectionDate':
                                     v = v.split('T')[0]
@@ -444,7 +444,7 @@ class Comparedata:
                     ddd.sort()
                     ddd_out.append(ddd)
         return ddd_out
-                  #去重方法2
+                  #方法2，将时间都加进来后去重
         #         for nn in nee_list:
         #             ddd = []
         #             qc = []
@@ -622,6 +622,7 @@ class Comparedata:
                 if i != 1:
                     self.write_compare_data('算法模型-', kk, times)
                     print(kk)
+            print('>>>以上数据不一致')
             if j == len(modelinfo_list):
                 print('\n算法模型 >>>校验通过，数据一致!')
         else:
@@ -655,7 +656,8 @@ class Comparedata:
                 #一直是0，即数据不同
                 if i != 1:
                     self.write_compare_data('模型关键指标-', kk, times)
-                    print(f'数据不一致:', kk)
+                    print(kk)
+            print('>>>以上数据不一致')
             if j == len(model_keyindex_list):
                 print('\n模型关键指标>>>校验通过，数据一致!')
         else:
@@ -690,6 +692,7 @@ class Comparedata:
                 if i != 1:
                     self.write_compare_data('模型投资分布-', kk, times)
                     print(kk)
+            print('>>>以上数据不一致')
             if j == len(model_distribution_list):
                 print('\n模型投资分布>>>校验通过，数据一致!')
         else:
@@ -723,9 +726,8 @@ class Comparedata:
                 if i != 1:
                     # print('数据不一致：')
                     self.write_compare_data('算法模型权重-', kk, times)
-                    print(f'数据不一致：',kk)
-                    # print(kk)
-
+                    print(kk)
+            print('>>>以上数据不一致')
             if j == len(modelinfo_list):
                 print('\n算法模型权重>>>校验通过，数据一致!')
         else:
@@ -766,6 +768,7 @@ class Comparedata:
                     if i != 1:
                         self.write_compare_data('算法预测-', kk, times)
                         print(kk)
+                print('>>>以上数据不一致,如有')
                 if j == len(modelinfo_list):
                     print('\n算法预测>>>校验通过，数据一致!')
             else:
@@ -797,11 +800,11 @@ class Comparedata:
         times = self.get_time()
         modelinfo_list = self.req_model_backtesting()
         print(modelinfo_list)
-        s1 = f'算法模型     接口共返回>>>>>>>>>>>>>>{len(modelinfo_list)}条数据\n'
+        s1 = f'算法回溯测试     接口共返回>>>>>>>>>>>>>>{len(modelinfo_list)}条数据\n'
         print(s1)
         csv_data = self.read_xlsx(5)
         print(csv_data)
-        s2 = f'算法模型     表格共返回>>>>>>>>>>>>>>{len(csv_data)}条数据\n'
+        s2 = f'算法回溯测试     表格共返回>>>>>>>>>>>>>>{len(csv_data)}条数据\n'
         print(s2)
         if len(modelinfo_list) == len(csv_data):
             j = 0
@@ -816,15 +819,16 @@ class Comparedata:
                         pass
                 #一直是0，即数据不同
                 if i != 1:
-                    self.write_compare_data('算法模型-',kk,times)
+                    self.write_compare_data('算法回溯测试-',kk,times)
                     print(kk)
+            print('>>>以上数据不一致，如有')
             if j == len(modelinfo_list):
                 print('\n算法回溯测试 >>>校验通过，数据量一致!')
 
         else:
             print('\n算法回溯测试 >>>校验不通过，数据量不一致!')
-            self.write_compare_data('算法模型-',s1, times)
-            self.write_compare_data('算法模型-',s2, times)
+            self.write_compare_data('算法回溯测试-',s1, times)
+            self.write_compare_data('算法回溯测试-',s2, times)
         # else:
         #     print('\n算法回溯测试 >>>校验不通过，数据量不一致!')
         #     self.write_compare_data('算法模型-',s1, times)
@@ -869,17 +873,15 @@ class Comparedata:
                 #一直是0，即数据不同
                 if i != 1:
                     # print('数据不一致：')
-                    self.write_compare_data('算法模型权重-', kk, times)
-                    print(f'数据不一致：',kk)
-                    # print(kk)
-
-
+                    self.write_compare_data('后备基金名单-', kk, times)
+                    print(kk)
+            print('>>>以上数据不一致，如有')
             if j == len(standby_fund_list):
-                print('\n算法模型权重>>>校验通过，数据一致!')
+                print('\n后备基金名单>>>校验通过，数据一致!')
         else:
             print('行数不一样')
-            self.write_compare_data('算法模型权重-', s1, times)
-            self.write_compare_data('算法模型权重-', s2, times)
+            self.write_compare_data('后备基金名单-', s1, times)
+            self.write_compare_data('后备基金名单-', s2, times)
 
 
     def main_compare_iuid_mapping(self):
@@ -914,6 +916,7 @@ class Comparedata:
                 if i != 1:
                     self.write_compare_data('基金-', kk, times)
                     print(kk)
+            print('>>>以上数据不一致，如有')
             if j == len(req_data):
                 print('\n基金 >>>校验通过，数据一致!')
         else:
@@ -969,7 +972,7 @@ if __name__ == '__main__':
     # compare_data.write_control_model_id()
 
     # 0.比较算法模型，数据一致
-    # compare_data.main_compare_model_info()
+    compare_data.main_compare_model_info()
 
     # 1.比较模型关键指标，数据一致
     # compare_data.main_compare_model_keyindex()
@@ -981,7 +984,7 @@ if __name__ == '__main__':
     # compare_data.main_compare_model_weight()
 
     # 4.比较算法预测，数据一致
-    compare_data.main_compare_model_projections()
+    # compare_data.main_compare_model_projections()
 
     # 5.比较算法回溯测试，数据一致
     # compare_data.main_compare_model_backtesting()
