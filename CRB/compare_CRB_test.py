@@ -622,7 +622,7 @@ class Comparedata:
                 if i != 1:
                     self.write_compare_data('算法模型-', kk, times)
                     print(kk)
-            print('>>>以上数据不一致')
+            print('>>>以上数据不一致，如有')
             if j == len(modelinfo_list):
                 print('\n算法模型 >>>校验通过，数据一致!')
         else:
@@ -657,7 +657,7 @@ class Comparedata:
                 if i != 1:
                     self.write_compare_data('模型关键指标-', kk, times)
                     print(kk)
-            print('>>>以上数据不一致')
+            print('>>>以上数据不一致，如有')
             if j == len(model_keyindex_list):
                 print('\n模型关键指标>>>校验通过，数据一致!')
         else:
@@ -692,7 +692,7 @@ class Comparedata:
                 if i != 1:
                     self.write_compare_data('模型投资分布-', kk, times)
                     print(kk)
-            print('>>>以上数据不一致')
+            print('>>>以上数据不一致，如有')
             if j == len(model_distribution_list):
                 print('\n模型投资分布>>>校验通过，数据一致!')
         else:
@@ -727,7 +727,7 @@ class Comparedata:
                     # print('数据不一致：')
                     self.write_compare_data('算法模型权重-', kk, times)
                     print(kk)
-            print('>>>以上数据不一致')
+            print('>>>以上数据不一致，如有')
             if j == len(modelinfo_list):
                 print('\n算法模型权重>>>校验通过，数据一致!')
         else:
@@ -768,7 +768,7 @@ class Comparedata:
                     if i != 1:
                         self.write_compare_data('算法预测-', kk, times)
                         print(kk)
-                print('>>>以上数据不一致,如有')
+                print('>>>以上数据不一致，如有')
                 if j == len(modelinfo_list):
                     print('\n算法预测>>>校验通过，数据一致!')
             else:
