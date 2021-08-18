@@ -972,7 +972,7 @@ if __name__ == '__main__':
     # compare_data.write_control_model_id()
 
     # 0.比较算法模型，数据一致
-    compare_data.main_compare_model_info()
+    # compare_data.main_compare_model_info()
 
     # 1.比较模型关键指标，数据一致
     # compare_data.main_compare_model_keyindex()
@@ -984,7 +984,7 @@ if __name__ == '__main__':
     # compare_data.main_compare_model_weight()
 
     # 4.比较算法预测，数据一致
-    # compare_data.main_compare_model_projections()
+    compare_data.main_compare_model_projections()
 
     # 5.比较算法回溯测试，数据一致
     # compare_data.main_compare_model_backtesting()
