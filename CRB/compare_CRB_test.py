@@ -17,7 +17,7 @@ from decimal import Decimal, getcontext
 class Comparedata:
     def __init__(self):
 
-        self.model_CRB_filepath = r'D:\algo_space\CRB\3\algo_file_CRB.xlsx'
+        self.model_CRB_filepath = r'D:\algo_space\CRB\test\algo_file_CRB.xlsx'
         self.algo_type_id = '19'
         self.algo_type_id_raas = '3'
         self.model_info_version = '3'

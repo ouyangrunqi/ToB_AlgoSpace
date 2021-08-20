@@ -1,4 +1,4 @@
-6096==boci_low
-6097==boci_moderate
-6098==boci_high
-6099==boci_vhigh
+2170==ratio_40
+2171==ratio_50
+2172==ratio_70
+2175==ratio_0
