@@ -726,11 +726,11 @@ if __name__ == '__main__':
     # compare_data.write_control_model_id()
 
     #逐个比较
-    #1,生产数据一致
-    # compare_data.main_compare_iuid_mapping()
+    #1 数据一致：2022-01-04验证通过
+    compare_data.main_compare_iuid_mapping()
 
     #2 数据一致：2022-01-04验证通过
-    compare_data.main_compare_model_info()
+    # compare_data.main_compare_model_info()
 
     #3 数据一致：2022-01-04验证通过
     # compare_data.main_compare_weight_info()
