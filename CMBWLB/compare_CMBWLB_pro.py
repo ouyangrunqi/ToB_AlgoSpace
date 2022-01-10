@@ -751,7 +751,7 @@ if __name__ == '__main__':
     #5 数据一致：2022-01-10验证通过
     # compare_data.main_compare_projections_info()
 
-    #6
+    #6 数据量一致（379000）：2022-01-10验证通过
     compare_data.main_compare_backtesting()
 
 
