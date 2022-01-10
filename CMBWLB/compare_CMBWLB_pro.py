@@ -14,7 +14,7 @@ import xlrd
 
 class Comparedata:
     def __init__(self):
-        self.iuid_mapping_filepath = r'D:\algo_space\CMBWLB\oss\iuid_mapping_WingLung.xlsx'
+        self.iuid_mapping_filepath = r'D:\algo_space\CMBWLB\oss\iuid_mapping_WingLung.xls'
         self.model_info_filepath = r'D:\algo_space\CMBWLB\oss\model_info.csv'
         self.model_weight_filepath = r'D:\algo_space\CMBWLB\oss\model_weight.csv'
         self.model_distribution_filepath = r'D:\algo_space\CMBWLB\oss\model_distribion.csv'
@@ -218,6 +218,8 @@ class Comparedata:
         :return:
         '''
 
+
+
         modelinfo_out_list = []
         type_id = self.req_typeid()
         model_info_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/list?algo_type_version_id={type_id}'
@@ -227,9 +229,17 @@ class Comparedata:
             modelinfo_list = []
             for k, v in data_dics.items():
                 if k == 'id':
+                    cmis = self.get_control_model_id()
+                    for cm in cmis:
+                        cm = cm.split('==')
+                        control_id = cm[0]
+                        model_id = cm[1]
+                        if v == int(control_id):
+                            v = str(model_id)
                     # self.idlist.append(v)
-                    model_id = self.getdata_fromdb(v)
-                    modelinfo_list.append(str(model_id))
+                    # model_id = self.getdata_fromdb(v)
+                    # modelinfo_list.append(str(model_id))
+                    modelinfo_list.append(v)
                     modelinfo_list.append(self.algo_type_id)
                     modelinfo_list.append(self.model_info_version)
                 if k == 'sector':
@@ -726,23 +736,23 @@ if __name__ == '__main__':
     # compare_data.write_control_model_id()
 
     #逐个比较
-    #1 数据一致：2022-01-04验证通过
-    compare_data.main_compare_iuid_mapping()
+    #1 数据一致：2022-01-10验证通过
+    # compare_data.main_compare_iuid_mapping()
 
-    #2 数据一致：2022-01-04验证通过
+    #2 数据一致：2022-01-10验证通过
     # compare_data.main_compare_model_info()
 
-    #3 数据一致：2022-01-04验证通过
+    #3 数据一致：2022-01-10验证通过
     # compare_data.main_compare_weight_info()
 
-    #4 数据一致：2022-01-04验证通过
+    #4 数据一致：2022-01-10验证通过
     # compare_data.main_compare_distribution()
 
-    #5 数据一致：2022-01-04验证通过
+    #5 数据一致：2022-01-10验证通过
     # compare_data.main_compare_projections_info()
 
     #6
-    # compare_data.main_compare_backtesting()
+    compare_data.main_compare_backtesting()
 
 
 

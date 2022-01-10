@@ -716,8 +716,8 @@ class Comparedata:
 if __name__ == '__main__':
     compare_data = Comparedata()
     #文件夹里没有control_id.txt,control_model_id.txt,运行生成后注释
-    compare_data.write_control_ids()
-    compare_data.write_control_model_id()
+    # compare_data.write_control_ids()
+    # compare_data.write_control_model_id()
 
     #逐个比较
     #1,生产数据OK
