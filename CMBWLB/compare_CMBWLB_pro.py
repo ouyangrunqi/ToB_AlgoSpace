@@ -14,15 +14,15 @@ import xlrd
 
 class Comparedata:
     def __init__(self):
-        self.iuid_mapping_filepath = r'D:\algo_space\CMBWLB\oss\iuid_mapping_WingLung.xls'
-        self.model_info_filepath = r'D:\algo_space\CMBWLB\oss\model_info.csv'
-        self.model_weight_filepath = r'D:\algo_space\CMBWLB\oss\model_weight.csv'
-        self.model_distribution_filepath = r'D:\algo_space\CMBWLB\oss\model_distribion.csv'
-        self.model_projections_filepath = r'D:\algo_space\CMBWLB\oss\model_projections.csv'
-        self.model_backtesting_filepath = r'D:\algo_space\CMBWLB\oss\model_backtesting.csv'
+        self.iuid_mapping_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\iuid_mapping_WingLung.xls'
+        self.model_info_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_info.csv'
+        self.model_weight_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_weight.csv'
+        self.model_distribution_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_distribion.csv'
+        self.model_projections_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_projections.csv'
+        self.model_backtesting_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_backtesting.csv'
 
         self.algo_type_id = '223'
-        self.model_info_version = '14'
+        self.model_info_version = '15'
         #projections,每5个一行
         self.splice_length = 5
 
@@ -218,8 +218,6 @@ class Comparedata:
         :return:
         '''
 
-
-
         modelinfo_out_list = []
         type_id = self.req_typeid()
         model_info_url = f'https://algo-internal.aqumon.com/algo-space/v3/algo-space/algo_control/list?algo_type_version_id={type_id}'
@@ -239,7 +237,7 @@ class Comparedata:
                     # self.idlist.append(v)
                     # model_id = self.getdata_fromdb(v)
                     # modelinfo_list.append(str(model_id))
-                    modelinfo_list.append(v)
+                    modelinfo_list.append(str(v))
                     modelinfo_list.append(self.algo_type_id)
                     modelinfo_list.append(self.model_info_version)
                 if k == 'sector':
@@ -251,7 +249,7 @@ class Comparedata:
                 if k == 'fundType':
                     # print(v)
                     v = json.loads(v)
-                    vlist = v['2021-11-30']
+                    vlist = v['2022-03-31']
                     # print(vlist)
                     # print('=======================')
                     new_vlist = []
@@ -272,7 +270,7 @@ class Comparedata:
         # print(f'model_info 接口共返回{len(modelinfo_out_list)}条数据------>')
         # print(modelinfo_list)
         # time.sleep(2222)
-        # print(modelinfo_out_list)
+        print(modelinfo_out_list)
         return modelinfo_out_list
 
     def getdata_fromdb(self, native_mode_id):
@@ -287,8 +285,8 @@ class Comparedata:
         db = pymysql.connect(host="rm-6nncv53w4dl5x7874.mysql.rds.aliyuncs.com", user="raas_rw",
                              password="LvSdi3vL2vIcg7pZl69S", db="raas", port=3306)
         cursor = db.cursor()
-        table = 'algo_model'
-        cursor.execute(f'SELECT id,history_model_id FROM {table} WHERE native_model_id = {native_mode_id}')
+        table = 't_algo_model'
+        cursor.execute(f'SELECT control_id,id FROM {table} WHERE control_id = {native_mode_id}')
 
         # 5.遍历结果，获取查询的结果
         selectResultList = cursor.fetchall()
@@ -354,7 +352,7 @@ class Comparedata:
                     # file.append(row)
                     modelinfo_csv_dic[f'第{i}行数据不一样'] = row
                 i += 1
-            # print(modelinfo_csv_dic)
+            print(modelinfo_csv_dic)
             return modelinfo_csv_dic
 
     # def trans_five(self, data_list):
@@ -732,27 +730,28 @@ class Comparedata:
 if __name__ == '__main__':
     compare_data = Comparedata()
     #文件夹里没有control_id.txt,control_model_id.txt,运行生成后注释
+    #更新策略文件后，需更新这两个txt
     # compare_data.write_control_ids()
     # compare_data.write_control_model_id()
 
     #逐个比较
-    #1 数据一致：2022-01-10验证通过
+    #1 数据一致：2022-06-07验证通过,iuid_mapping:Algo可能有历史数据，比xlsx中的基金多
     # compare_data.main_compare_iuid_mapping()
 
-    #2 数据一致：2022-01-10验证通过
-    # compare_data.main_compare_model_info()
+    #2 数据一致：2022-06-07验证通过
+    compare_data.main_compare_model_info()
 
-    #3 数据一致：2022-01-10验证通过
+    #3 数据一致：2022-06-07验证通过
     # compare_data.main_compare_weight_info()
 
-    #4 数据一致：2022-01-10验证通过
+    #4 数据一致：
     # compare_data.main_compare_distribution()
 
-    #5 数据一致：2022-01-10验证通过
+    #5 数据一致：2022-06-07验证通过
     # compare_data.main_compare_projections_info()
 
-    #6 数据量一致（379000）：2022-01-10验证通过
-    compare_data.main_compare_backtesting()
+    #6 数据量一致（382750）：2022-06-07验证通过
+    # compare_data.main_compare_backtesting()
 
 
 
