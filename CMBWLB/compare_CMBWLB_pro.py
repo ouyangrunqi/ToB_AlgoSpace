@@ -14,7 +14,7 @@ import xlrd
 
 class Comparedata:
     def __init__(self):
-        self.iuid_mapping_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\iuid_mapping_WingLung.xls'
+        self.iuid_mapping_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\iuid_mapping_WingLung.xlsx'
         self.model_info_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_info.csv'
         self.model_weight_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_weight.csv'
         self.model_distribution_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_distribion.csv'
@@ -736,15 +736,15 @@ if __name__ == '__main__':
 
     #逐个比较
     #1 数据一致：2022-06-07验证通过,iuid_mapping:Algo可能有历史数据，比xlsx中的基金多
-    # compare_data.main_compare_iuid_mapping()
+    compare_data.main_compare_iuid_mapping()
 
     #2 数据一致：2022-06-07验证通过
-    compare_data.main_compare_model_info()
+    # compare_data.main_compare_model_info()
 
     #3 数据一致：2022-06-07验证通过
     # compare_data.main_compare_weight_info()
 
-    #4 数据一致：
+    #4 数据一致：2022-06-07验证通过
     # compare_data.main_compare_distribution()
 
     #5 数据一致：2022-06-07验证通过
