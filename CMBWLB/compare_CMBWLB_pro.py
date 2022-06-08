@@ -529,12 +529,14 @@ class Comparedata:
         s1 = f'iuid maping     接口共返回>>>>>>>>>>>>>>>>>>>>>>>>{len(req_data)}条数据'
         print(s1)
         for rd in req_data:
-            print(rd)
+            print(rd) #打印接口数据
         xlsx_data = self.read_xlsx()
         s2 = f'iuid maping     表格共返回>>>>>>>>>>>>>>>>>>>>>>>>{len(xlsx_data)}条数据'
         print(s2)
         for xx,xd in xlsx_data.items():
-            print(xd)
+            print(xd) #打印表格数据
+        xlsx_list = []  # 表格数据
+        history_iuid_list = []  # 存放不一致数据
         if len(req_data) == len(xlsx_data):
             j = 0
             # print(operator.eq(req_data,xlsx_data))
@@ -551,10 +553,32 @@ class Comparedata:
                     print(kk)
             if j == len(req_data):
                 print('\niuid_mapping >>>校验通过，数据一致!')
+
+        elif len(req_data) > len(xlsx_data):
+            for kk, vv in xlsx_data.items():
+                xlsx_list.append(vv)
+            for i in xlsx_list:
+                if i not in req_data:
+                    history_iuid_list.append(i)
+            for i in req_data:
+                if i not in xlsx_list:
+                    history_iuid_list.append(i)
+            # print('共{}组数据不同：{}'.format(len(history_iuid_list), history_iuid_list))
+
+            list = [i for i in history_iuid_list if i not in xlsx_list]
+            list2 = [i for i in history_iuid_list if i in xlsx_list]
+
+            if list:
+                if not list2:
+                    print('\nalgo有历史数据所以比表格多{}组数据：\n{}'.format(len(history_iuid_list), history_iuid_list))
+                    print('\niuid_mapping >>>校验通过!!!')
+                    self.write_cpmpare_data('iuid_mapping-algo_history_data-', history_iuid_list, times)
+                else:
+                    print(f'\niuid_mapping >>>校验不通过!!!algo与表格存在不同数据：', list2)
+                    self.write_cpmpare_data('iuid接口与表格不同数据-', list2, times)
+
         else:
-            print('行数不相同')
-            self.write_cpmpare_data('model_iuid_mapping-', s1, times)
-            self.write_cpmpare_data('model_iuid_mapping-', s2, times)
+            print('\niuid_mapping >>>校验不通过，表格数据量少于algo!')
 
     def main_compare_model_info(self):
         print('正在比较model_info文件=======>>>')
