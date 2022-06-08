@@ -3,15 +3,10 @@ import operator
 import os
 
 
-dir1 = "D:\CMBWLB\CMBWLB\Algo_space"
-dir2 = "D:\CMBWLB\CMBWLB\oss"
-
-
-# dir1 = "D:\ToB_AlgoSpace\CMBWLB\oss_223_15"
-# dir2 = "D:\ToB_AlgoSpace\CMBWLB\oss_223_14"
+dir1 = "D:\ToB_AlgoSpace\CMBWLB\oss_223_16"
+dir2 = "D:\ToB_AlgoSpace\CMBWLB\oss_223_14"
 
 #遍历文件
-
 def walkFile(file):
     # for root,dirs,files in  os.walk(file):
     #     return files
