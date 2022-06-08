@@ -14,12 +14,12 @@ import xlrd
 
 class Comparedata:
     def __init__(self):
-        self.iuid_mapping_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\iuid_mapping_WingLung.xlsx'
-        self.model_info_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_info.csv'
-        self.model_weight_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_weight.csv'
-        self.model_distribution_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_distribion.csv'
-        self.model_projections_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_projections.csv'
-        self.model_backtesting_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss\model_backtesting.csv'
+        self.iuid_mapping_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_233_15\iuid_mapping_WingLung.xlsx'
+        self.model_info_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_233_15\model_info.csv'
+        self.model_weight_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_233_15\model_weight.csv'
+        self.model_distribution_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_233_15\model_distribion.csv'
+        self.model_projections_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_233_15\model_projections.csv'
+        self.model_backtesting_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_233_15\model_backtesting.csv'
 
         self.algo_type_id = '223'
         self.model_info_version = '15'
