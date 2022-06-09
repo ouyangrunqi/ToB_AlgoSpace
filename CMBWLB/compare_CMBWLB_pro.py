@@ -566,19 +566,29 @@ class Comparedata:
             # print('共{}组数据不同：{}'.format(len(history_iuid_list), history_iuid_list))
 
             list = [i for i in history_iuid_list if i not in xlsx_list]
-            list2 = [i for i in history_iuid_list if i in xlsx_list]
+            list2 = [i for i in history_iuid_list if i in req_data]
 
             if list:
-                if not list2:
-                    print('\nalgo有历史数据所以比表格多{}组数据：\n{}'.format(len(history_iuid_list), history_iuid_list))
-                    print('\niuid_mapping >>>校验通过!!!')
-                    self.write_cpmpare_data('iuid_mapping-algo_history_data-', history_iuid_list, times)
-                else:
-                    print(f'\niuid_mapping >>>校验不通过!!!algo与表格存在不同数据：', list2)
-                    self.write_cpmpare_data('iuid接口与表格不同数据-', list2, times)
+                if list2:
+                    print(f'\niuid_mapping >>>校验通过！！！')
+                    print('algo存在历史数据，比表格多{}组数据：\n{}'.format(len(history_iuid_list), history_iuid_list))
 
+            else:
+                print(f'\niuid_mapping >>>校验不通过!!!algo与表格存在不同数据：', history_iuid_list)
+
+        #     if list:
+        #         if not list2:
+        #             print('\nalgo有历史数据所以比表格多{}组数据：\n{}'.format(len(history_iuid_list), history_iuid_list))
+        #             print('\niuid_mapping >>>校验通过！！！')
+        #             self.write_cpmpare_data('iuid_mapping-algo_history_data-', history_iuid_list, times)
+        #         else:
+        #             print(f'\niuid_mapping >>>校验不通过!!!algo与表格存在不同数据：', list2)
+        #             self.write_cpmpare_data('iuid接口与表格不同数据-', list2, times)
+        #
         else:
             print('\niuid_mapping >>>校验不通过，表格数据量少于algo!')
+
+
 
     def main_compare_model_info(self):
         print('正在比较model_info文件=======>>>')
@@ -762,19 +772,19 @@ if __name__ == '__main__':
     #1 数据一致：2022-06-07验证通过,iuid_mapping:Algo可能有历史数据，比xlsx中的基金多
     compare_data.main_compare_iuid_mapping()
 
-    #2 数据一致：2022-06-07验证通过
+    #2 数据一致：2022-06-09验证通过
     # compare_data.main_compare_model_info()
 
-    #3 数据一致：2022-06-07验证通过
+    #3 数据一致：2022-06-09验证通过
     # compare_data.main_compare_weight_info()
 
-    #4 数据一致：2022-06-07验证通过
+    #4 数据一致：2022-06-09验证通过
     # compare_data.main_compare_distribution()
 
-    #5 数据一致：2022-06-07验证通过
+    #5 数据一致：2022-06-09验证通过
     # compare_data.main_compare_projections_info()
 
-    #6 数据量一致（382750）：2022-06-07验证通过
+    #6 数据量一致（382750）：2022-06-09验证通过
     # compare_data.main_compare_backtesting()
 
 
