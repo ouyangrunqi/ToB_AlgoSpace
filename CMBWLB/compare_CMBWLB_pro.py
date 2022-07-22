@@ -14,12 +14,12 @@ import xlrd
 
 class Comparedata:
     def __init__(self):
-        self.iuid_mapping_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_223_15\iuid_mapping_WingLung.xlsx'
-        self.model_info_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_223_15\model_info.csv'
-        self.model_weight_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_223_15\model_weight.csv'
-        self.model_distribution_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_223_15\model_distribion.csv'
-        self.model_projections_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_223_15\model_projections.csv'
-        self.model_backtesting_filepath = r'D:\ToB_AlgoSpace\CMBWLB\oss_223_15\model_backtesting.csv'
+        self.iuid_mapping_filepath = r'D:\ToB_algospace\CMBWLB\oss_223_15\iuid_mapping_WingLung.xlsx'
+        self.model_info_filepath = r'D:\ToB_algospace\CMBWLB\oss_223_15\model_info.csv'
+        self.model_weight_filepath = r'D:\ToB_algospace\CMBWLB\oss_223_15\model_weight.csv'
+        self.model_distribution_filepath = r'D:\ToB_algospace\CMBWLB\oss_223_15\model_distribion.csv'
+        self.model_projections_filepath = r'D:\ToB_algospace\CMBWLB\oss_223_15\model_projections.csv'
+        self.model_backtesting_filepath = r'D:\ToB_algospace\CMBWLB\oss_223_15\model_backtesting.csv'
 
         self.algo_type_id = '223'
         self.model_info_version = '15'
@@ -769,22 +769,22 @@ if __name__ == '__main__':
     # compare_data.write_control_model_id()
 
     #逐个比较
-    #1 数据一致：2022-06-07验证通过,iuid_mapping:Algo可能有历史数据，比xlsx中的基金多
+    #1 数据一致：2022-07-22验证通过,iuid_mapping:Algo可能有历史数据，比xlsx中的基金多
     compare_data.main_compare_iuid_mapping()
 
-    #2 数据一致：2022-06-09验证通过
+    #2 数据一致：2022-07-22验证通过
     # compare_data.main_compare_model_info()
 
-    #3 数据一致：2022-06-09验证通过
+    #3 数据一致：2022-07-22验证通过
     # compare_data.main_compare_weight_info()
 
-    #4 数据一致：2022-06-09验证通过
+    #4 数据一致：2022-07-22验证通过
     # compare_data.main_compare_distribution()
 
-    #5 数据一致：2022-06-09验证通过
+    #5 数据一致：2022-07-22验证通过
     # compare_data.main_compare_projections_info()
 
-    #6 数据量一致（382750）：2022-06-09验证通过
+    #6 数据量一致（382750）：2022-07-22验证通过
     # compare_data.main_compare_backtesting()
 
 
